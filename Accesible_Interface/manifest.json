@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "Accessible Interface",
+  "version": "3.46",
+  "description": "A simple extension using WCAG 2.0 criteria by using the four principles: Perceivable, Operable, Understandable, and Robust (POUR)",
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon":{
+      "16": "images/icon16.png",
+      "48": "images/icon48.png",
+      "64": "images/icon64.png",
+      "128": "images/icon128.png"
+    }
+  },
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "background": {
+    "service_worker": "popup.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["styles.css"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
+

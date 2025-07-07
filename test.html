@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WCAG 2.0 Accessible Interface</title>
+</head>
+<body>
+
+  <h1>WCAG 2.0 Accessible Interface</h1>
+
+  <h2>(Guideline 1.1.1, WCAG Version: 2.0, Level: A)</h2>
+  <h3>Images</h3>
+  <img src="image1.jpg" alt="Descriptive alt text">
+  <img src="image2.jpg" alt="">
+  <img src="image3.jpg">
+
+  <h3>Image Buttons</h3>
+  <input type="image" src="button1.jpg" alt="Submit">
+  <input type="image" src="button2.jpg"> <!-- This one should trigger an issue -->
+
+  <h3>Image Map Areas</h3>
+  <img src="map.jpg" usemap="#imagemap">
+  <map name="imagemap">
+    <area shape="rect" coords="34,44,270,350" alt="Description of the area">
+    <area shape="rect" coords="290,172,333,250"> <!-- This one should trigger an issue -->
+  </map>
+
+  <h3>CSS Background Images</h3>
+  <div class="decorative" aria-label="Decorative background image"></div>
+  <div class="decorative"></div> <!-- This one should trigger an issue -->
+
+  <h2>(Guideline 1.2.1, WCAG Version: 2.0, Level: A)</h2>
+  <h3>Audio Elements</h3>
+
+  <!-- This audio element should trigger an issue because it lacks a transcript -->
+  <audio id="audio1" controls src="audio1.mp3" data-transcript-for="transcript1"></audio>
+  <div id="transcript1"></div> <!-- Empty transcript -->
+
+  <!-- This audio element should not trigger an issue -->
+  <audio id="audio2" controls src="audio2.mp3" data-transcript-for="transcript2"></audio>
+  <div id="transcript2">
+    <p>This is a detailed and meaningful transcript for audio 2.</p>
+  </div>
+
+  <!-- This audio element should trigger an issue because the transcript is too short -->
+  <audio id="audio3" controls src="audio3.mp3" data-transcript-for="transcript3"></audio>
+  <div id="transcript3">
+    <p>Too short</p>
+  </div>
+
+  <h2>(Guideline 1.2.2, WCAG Version: 2.0, Level: A)</h2>
+<h3>Video Elements</h3>
+<video id="video1" controls data-transcript-for="transcript2">
+  <source src="video1.mp4" type="video/mp4">
+  <track kind="captions" src="captions_en.vtt" srclang="en" label="English">
+</video>
+<div id="transcript2">
+  <p>Transcript for video 1.</p>
+</div>
+
+<video id="video2" controls>
+  <source src="video2.mp4" type="video/mp4">
+</video> <!-- This one should trigger an issue (no captions and no transcript) -->
+
+
+  <h2>(Guideline 1.2.3, WCAG Version: 2.0, Level: A)</h2>
+  <h3>Video Elements</h3>
+  <!-- Video element with audio description track -->
+  <video id="video3" controls>
+    <source src="video3.mp4" type="video/mp4">
+    <track kind="descriptions" src="descriptions_en.vtt" srclang="en" label="English">
+  </video>
+  <!-- Video element without audio description track or transcript -->
+  <video id="video4" controls>
+    <source src="video4.mp4" type="video/mp4">
+  </video> <!-- This one should trigger an issue -->
+
+  <h2>(Guideline 1.2.4, WCAG Version: 2.0, Level: AA)</h2>
+  <h3>Live Media Elements</h3>
+  <!-- Live audio element with captions -->
+  <audio id="liveAudio1" controls data-live="true">
+    <source src="liveAudio1.mp3" type="audio/mp3">
+    <track kind="captions" src="captions_en.vtt" srclang="en" label="English">
+  </audio>
+  <!-- Live video element without captions -->
+  <video id="liveVideo2" controls data-live="true">
+    <source src="liveVideo2.mp4" type="video/mp4">
+  </video> <!-- This one should trigger an issue -->
+
+  <h2>(Guideline 1.2.5, WCAG Version: 2.0, Level: AA)</h2>
+  <h3>Audio Description</h3>
+  <video id="video5" controls>
+    <source src="video5.mp4" type="video/mp4">
+    <track kind="descriptions" src="descriptions_en.vtt" srclang="en" label="English">
+  </video> <!-- This one should not trigger an issue -->
+  <video id="video6" controls>
+    <source src="video6.mp4" type="video/mp4">
+  </video> <!-- This one should trigger an issue -->
+
+  <h2>(Guideline 1.2.6, WCAG Version: 2.0, Level: AAA)</h2>
+  <h3>Sign Language Interpretation</h3>
+  <video id="video7" controls>
+    <source src="video7.mp4" type="video/mp4">
+    <track kind="sign" src="sign_language.vtt" srclang="en" label="Sign Language">
+  </video> <!-- This one should not trigger an issue -->
+  <video id="video8" controls>
+    <source src="video8.mp4" type="video/mp4">
+  </video> <!-- This one should trigger an issue -->
+
+  <h2>(Guideline 1.2.7, WCAG Version: 2.0, Level: AAA)</h2>
+  <h3>Extended Audio Description</h3>
+  <video id="video9" controls>
+    <source src="video9.mp4" type="video/mp4">
+    <track kind="extended" src="extended_audio_description.vtt" srclang="en" label="Extended Audio Description">
+  </video> <!-- This one should not trigger an issue -->
+  <video id="video10" controls>
+    <source src="video10.mp4" type="video/mp4">
+  </video> <!-- This one should trigger an issue -->
+
+  <h2>(Guideline 1.3.1, WCAG Version: 2.0, Level: A)</h2>
+  <h3>Form Elements</h3>
+  <form>
+    <label for="input1">Label for Input 1</label>
+    <input type="text" id="input1">
+    <label for="input2">Label for Input 2</label>
+    <input type="text" id="input2">
+    <input type="text" id="input3"> <!-- This one should trigger an issue -->
+    <select id="select1">
+      <option>Option 1</option>
+      <option>Option 2</option>
+    </select>
+    <textarea id="textarea1"></textarea> <!-- This one should trigger an issue -->
+    <input type="text" aria-label="Aria Labelled Input"> <!-- This one should not trigger an issue -->
+    <div>
+      <label>Label Wrapped Input <input type="text"></label> <!-- This one should not trigger an issue -->
+    </div>
+  </form>
+
+  <h2>(Guideline 1.3.2, WCAG Version: 2.0, Level: A)</h2>
+  <h3>Reading and Navigation Order</h3>
+  <p>Paragraph 1</p> <!-- This should trigger an issue -->
+  <h1>Heading 1</h1> 
+  <h2>Heading 2</h2>
+  <p>Paragraph 2</p>
+  <ul>
+    <li>List Item 1</li>
+    <li>List Item 2</li>
+  </ul>
+  <p>Paragraph 3</p> <!-- This should trigger an issue -->
+  <h3>Heading 3</h3> 
+
+  <h2>(Guideline 1.3.3, WCAG Version: 2.0, Level: A)</h2>
+  <h3>Instructions Relying on Sensory Characteristics</h3>
+  <p>Click the square icon to continue.</p> <!-- This should trigger an issue -->
+  <p>The instructions are in the right-hand column.</p> <!-- This should trigger an issue -->
+  <p>A beeping sound indicates you may continue.</p> <!-- This should trigger an issue -->
+  <p>Click the red button to submit the form.</p> <!-- This should trigger an issue -->
+
+  <h2>(Guideline 1.3.5, WCAG Version: 2.0, Level: AA)</h2>
+<h3>Input Fields with Autocomplete Attributes</h3>
+<form>
+  <label for="name">Name</label>
+  <input type="text" id="name" autocomplete="name"> <!-- This should not trigger an issue -->
+
+  <label for="email">Email</label>
+  <input type="email" id="email"> <!-- This should trigger an issue -->
+
+  <label for="address">Address</label>
+  <input type="text" id="address" autocomplete="street-address"> <!-- This should not trigger an issue -->
+
+  <label for="birthday">Birthday</label>
+  <input type="text" id="birthday" autocomplete="bday"> <!-- This should not trigger an issue -->
+
+  <label for="invalid">Invalid Autocomplete</label>
+  <input type="text" id="invalid" autocomplete="invalid"> <!-- This should trigger an issue -->
+
+  <label for="missing">Missing Autocomplete</label>
+  <input type="text" id="missing"> <!-- This should trigger an issue -->
+</form>
+
+
+  <h2>(Guideline 1.4.1, WCAG Version: 2.0, Level: A)</h2>
+  <h3>Use of Color</h3>
+  <p style="color: red;">This text is red and used to convey important information. <!-- This should trigger an issue --></p>
+  <p style="color: green;">This text is green and used to convey success. <!-- This should trigger an issue --></p>
+  <p style="color: blue; background-color: yellow;">This text is blue on a yellow background. <!-- This should not trigger an issue --></p>
+
+
+<h2>(Guideline 1.4.5, WCAG Version: 2.0, Level: AA)</h2>
+<h3>Images of Text</h3>
+<img src="image_of_text.jpg" alt="Example Text"> <!-- This should trigger an issue -->
+<img src="decorative_image.jpg" alt="" data-decorative="true"> <!-- This should not trigger an issue -->
+<img src="non_text_image.jpg" alt="Beautiful landscape"> <!-- This should trigger an issue -->
+<img src="decorative_image_with_alt.jpg" alt="Decorative pattern" data-decorative="true"> <!-- This should not trigger an issue -->
+
+<h2>(Guideline 1.4.8, WCAG Version: 2.0, Level: AAA)</h2>
+<h3>Visual Presentation</h3>
+
+<!-- This paragraph should trigger multiple issues -->
+<p style="width: 400px; text-align: justify; line-height: 1.2; margin-bottom: 10px; color: black; background-color: white;">
+  This is a long paragraph that exceeds 80 characters and is fully justified. It also has inadequate line spacing and paragraph spacing. This text block is meant to test the compliance with visual presentation guidelines.
+</p>
+
+<!-- This paragraph should not trigger any issues -->
+<p style="width: 300px; line-height: 1.6; margin-bottom: 24px; color: black; background-color: white;">
+    This paragraph is short.
+  </p>
+
+  <h2>(Guideline 1.4.10, WCAG Version: 2.0, Level: AA)</h2>
+  <h3>Reflow Test</h3>
+  
+  <!-- This div should trigger an issue -->
+  <div style="width: 500px; overflow-x: auto;">
+    <p>This is a long text inside a wide div. When the viewport is resized to 320 pixels, this element will require horizontal scrolling.</p>
+  </div>
+  
+  <!-- This div should not trigger an issue -->
+  <div style="max-width: 100%; overflow-wrap: break-word;">
+    <p>This text is inside a responsive div. It should reflow properly when the viewport is resized to 320 pixels.</p>
+  </div>
+  
+  <!-- This paragraph should not trigger an issue -->
+  <p style="max-width: 100%; overflow-wrap: break-word;">
+    This paragraph should reflow properly when the viewport is resized to 320 pixels without requiring horizontal scrolling.
+  </p>
+  
+  <!-- This table should trigger an issue -->
+  <table style="width: 500px;">
+    <tr><td>Row 1, Cell 1</td><td>Row 1, Cell 2</td></tr>
+    <tr><td>Row 2, Cell 1</td><td>Row 2, Cell 2</td></tr>
+  </table>
+  
+  <!-- This responsive table should not trigger an issue -->
+  <table style="max-width: 100%;">
+    <tr><td>Row 1, Cell 1</td><td>Row 1, Cell 2</td></tr>
+    <tr><td>Row 2, Cell 1</td><td>Row 2, Cell 2</td></tr>
+  </table>
+  
+  <h2>(Guideline 1.4.11, WCAG Version: 2.0, Level: AA)</h2>
+  <h3>Non-text Contrast Test</h3>
+  
+  <!-- This button should trigger an issue -->
+  <button style="background-color: #ffffff; color: #bbbbbb;">Low Contrast Button</button>
+  
+  <!-- This button should not trigger an issue -->
+  <button style="background-color: #ffffff; color: #000000;">High Contrast Button</button>
+  
+  <!-- This custom icon should trigger an issue -->
+  <svg class="icon" width="50" height="50" style="fill: #bbbbbb; background-color: #ffffff;">
+    <rect width="50" height="50"/>
+  </svg>
+  
+  <!-- This custom icon should not trigger an issue -->
+  <svg class="icon" width="50" height="50" style="fill: #000000; background-color: #ffffff;">
+    <rect width="50" height="50"/>
+  </svg>
+  
+
+  <h2>(Guideline 1.4.12, WCAG Version: 2.0, Level: AA)</h2>
+  <h3>Text Spacing Test</h3>
+  
+  <!-- This paragraph should not trigger an issue -->
+  <p style="height: auto;">
+    This paragraph should adjust to text spacing changes without any issues.
+  </p>
+  
+  <!-- This div should trigger an issue -->
+  <div style="height: 50px; overflow: hidden;">
+    <p>This div has a fixed height and should trigger an issue when text spacing adjustments are applied, causing overflow.</p>
+  </div>
+  
+  <!-- This div should not trigger an issue -->
+  <div style="height: auto;">
+    <p>This div should adjust to text spacing changes without any issues.</p>
+  </div>
+  
+  <h2>(Guideline 1.4.13, WCAG Version: 2.0, Level: AA)</h2>
+<h3>Content on Hover or Focus Test</h3>
+
+<!-- Trigger element with hover and focus content -->
+<button data-hover-content="additionalContent" data-focus-content="additionalContent">Hover or focus on me</button>
+
+<!-- Additional content to be displayed on hover or focus -->
+<div id="additionalContent" style="display: none; border: 1px solid #000; padding: 10px; background-color: #f0f0f0;">
+  This content appears on hover or focus and can be dismissed with the Escape key.
+</div>
+
+<h2>(Guideline 2.1.1, WCAG Version: 2.0, Level: A)</h2>
+<h3>Keyboard Accessibility Test</h3>
+
+<!-- Interactive elements without keyboard accessibility -->
+<a href="#" tabindex="-1">Link with tabindex -1</a> <!-- This should trigger an issue -->
+<button tabindex="-1">Button with tabindex -1</button> <!-- This should trigger an issue -->
+
+<!-- Interactive elements with keyboard accessibility -->
+<a href="#">Accessible Link</a>
+<button>Accessible Button</button>
+
+<!-- Element with accesskey attribute -->
+<button accesskey="k">Button with accesskey</button> <!-- This should trigger an issue -->
+
+<h2>(Guideline 2.1.3, WCAG Version: 2.0, Level: A)</h2>
+<h3>Character Key Shortcuts Test</h3>
+
+<!-- Example element with a character key shortcut -->
+<div class="focusable" id="shortcutDiv" tabindex="0">Press "a" to trigger an action.</div>
+
+<script>
+  // Example character key shortcut implementation
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'a') {
+      alert('Character key "a" pressed.');
+    }
+  });
+
+  // Function to highlight issues
+  function addIssue(element, message) {
+    element.style.border = '2px solid red';
+    element.setAttribute('title', message);
+    console.log(message, element); // For debugging purposes
+  }
+
+  // Call the function to check for character key shortcuts
+  checkCharacterKeyShortcuts();
+</script>
+
+<h2>(Guideline 2.2.1, WCAG Version: 2.0, Level: A)</h2>
+<h3>Timing Adjustable Test</h3>
+
+<!-- Element with a time limit -->
+<div data-time-limit="60">
+  <p>Action must be completed within 60 seconds.</p>
+  <!-- Options to adjust the time limit -->
+  <button data-adjust-time="increase">Increase Time</button>
+  <button data-adjust-time="decrease">Decrease Time</button>
+  <button data-turn-off-time>Turn Off Time Limit</button>
+</div>
+
+<!-- Element with a time limit but without options to adjust -->
+<div data-time-limit="30">
+  <p>Action must be completed within 30 seconds.</p>
+</div>
+
+<script>
+  // Function to highlight issues
+  function addIssue(element, message) {
+    element.style.border = '2px solid red';
+    element.setAttribute('title', message);
+    console.log(message, element); // For debugging purposes
+  }
+
+  // Call the function to check for timing adjustable options
+  checkTimingAdjustable();
+</script>
+
+<h2>(Guideline 2.2.2, WCAG Version: 2.0, Level: A)</h2>
+  <h3>Automatically Moving Content Test</h3>
+
+  <!-- Element with moving content and controls -->
+  <div data-moving-content class="moving-content">
+    <p>This content moves automatically.</p>
+    <!-- Controls to pause, stop, or hide -->
+    <button data-pause>Pause</button>
+    <button data-stop>Stop</button>
+    <button data-hide>Hide</button>
+  </div>
+
+  <!-- Element with moving content but without controls -->
+  <div data-moving-content class="moving-content">
+    <p>This content moves automatically.</p>
+  </div>
+
+  <h2>(Guideline 2.2.3, WCAG Version: 2.0, Level: AAA)</h2>
+  <h3>No Timing Constraints Test</h3>
+
+  <!-- Element with a time limit -->
+  <div data-time-limit="60">
+    <p>This content has a time limit of 60 seconds.</p>
+  </div>
+
+  <!-- Element without a time limit (should not trigger an issue) -->
+  <div>
+    <p>This content has no time limit.</p>
+  </div>
+
+  <h2>(Guideline 2.2.4, WCAG Version: 2.0, Level: AAA)</h2>
+  <h3>Interruptions Test</h3>
+  
+  <!-- Element with an interruption that can be postponed -->
+  <div data-interruption data-postpone="true">
+    <p>This interruption can be postponed.</p>
+  </div>
+  
+  <!-- Element with an interruption that can be suppressed -->
+  <div data-interruption data-suppress="true">
+    <p>This interruption can be suppressed.</p>
+  </div>
+  
+  <!-- Element with an interruption but no way to postpone or suppress it -->
+  <div data-interruption>
+    <p>This interruption cannot be postponed or suppressed.</p>
+  </div>
+ 
+  <h2>(Guideline 2.2.5, WCAG Version: 2.0, Level: AAA)</h2>
+  <h3>Re-authentication Test</h3>
+  
+  <!-- Element with authentication that supports re-authentication -->
+  <div data-authentication data-re-authenticate="true">
+    <p>Your session is active.</p>
+  </div>
+  
+  <!-- Element with authentication session that will expire and does not support re-authentication -->
+  <div data-authentication data-session-expires="true">
+    <p>Your session will expire soon.</p>
+  </div>
+   
+  <h2>(Guideline 2.3.1, WCAG Version: 2.0, Level: A)</h2>
+  <h3>Flashing Content Test</h3>
+
+  <!-- Element flashing more than 3 times per second and is high contrast with red flashes (this should trigger an issue) -->
+  <div class="flash" data-flashing data-flash-rate="4" data-high-contrast="true" data-red-flash="true" style="background-color: red;">
+    <p>This content flashes more than 3 times per second and is high contrast with red flashes.</p>
+  </div>
+
+  <!-- Element flashing 3 times per second (this should not trigger an issue) -->
+  <div class="flash" data-flash-rate="3" style="background-color: green;">
+    <p>This content flashes 3 times per second.</p>
+  </div>
+
+  <!-- Element flashing more than 3 times per second but is low contrast (this should not trigger an issue) -->
+  <div class="flash" data-flash-rate="4" data-high-contrast="false" style="background-color: lightgrey;">
+    <p>This content flashes more than 3 times per second but is low contrast.</p>
+  </div>
+
+  <!-- Element flashing more than 3 times per second but is sufficiently small (this should not trigger an issue) -->
+  <div class="flash" data-flashing data-flash-rate="4" data-sufficiently-small="true" style="width: 120px; height: 10px; background-color: blue;">
+    <p style="font-size: 10px;">This content flashes more than 3 times per second but is sufficiently small.</p>
+  </div>
+
+  <script>
+    document.querySelectorAll('[data-flashing]').forEach(element => {
+      const flashRate = parseInt(element.getAttribute('data-flash-rate'), 10);
+      let isVisible = true;
+      setInterval(() => {
+        element.style.visibility = isVisible ? 'hidden' : 'visible';
+        isVisible = !isVisible;
+      }, 1000 / flashRate); // Flash rate in times per second
+    });
+  </script>
+
+<h2>(Guideline 2.3.2, WCAG Version: 2.0, Level: AAA)</h2>
+  <h3>Flashing Content Test</h3>
+
+  <!-- Element flashing more than 3 times per second (this should trigger an issue) -->
+  <div class="flash" data-flashing data-flash-rate="4" style="background-color: red;">
+    <p>This content flashes more than 3 times per second.</p>
+  </div>
+
+  <!-- Element flashing 3 times per second (this should not trigger an issue) -->
+  <div class="flash" data-flashing data-flash-rate="3" style="background-color: green;">
+    <p>This content flashes 3 times per second.</p>
+  </div>
+
+  <script>
+    document.querySelectorAll('[data-flashing]').forEach(element => {
+      const flashRate = parseInt(element.getAttribute('data-flash-rate'), 10);
+      let isVisible = true;
+      setInterval(() => {
+        element.style.visibility = isVisible ? 'hidden' : 'visible';
+        isVisible = !isVisible;
+      }, 1000 / flashRate); // Flash rate in times per second
+    });
+  </script>
+
+<h2>(Guideline 2.4.1, WCAG Version: 2.0, Level: A)</h2>
+<h3>Bypass Blocks Test</h3>
+
+<!-- Skip link (this should not trigger an issue) -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- Navigation section -->
+<div class="nav">
+  <nav>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+</div>
+
+<!-- Main content section -->
+<div id="main-content" class="content">
+  <h1>Main Content</h1>
+  <p>This is the main content area.</p>
+</div>
+
+<!-- Skip link with missing target (this should trigger an issue) -->
+<a href="#missing-content" class="skip-link">Skip to missing content</a>
+
+<h2>(Guideline 2.4.3, WCAG Version: 2.0, Level: A)</h2>
+<h3>Focusable Elements</h3>
+
+<a href="#" tabindex="1">Link 1</a>
+<a href="#" tabindex="3">Link 3</a> <!-- This should trigger an issue -->
+<a href="#" tabindex="2">Link 2</a> <!-- This should trigger an issue -->
+<button tabindex="4">Button 1</button>
+<button tabindex="5">Button 2</button>
+<input type="text" id="input1" tabindex="6">
+<select id="select1" tabindex="8">
+  <option>Option 1</option>
+  <option>Option 2</option>
+</select>
+<textarea id="textarea1" tabindex="7"></textarea> <!-- This should trigger an issue -->
+
+<h2>(Guideline 2.4.6, WCAG Version: 2.0, Level: AA)</h2>
+
+<h3>Valid Headings and Labels</h3>
+<h1>Valid Heading 1</h1>
+<h2>Valid Heading 2</h2>
+<label for="input1">Valid Label 1</label>
+<input id="input1" type="text">
+
+<h3>Invalid Headings and Labels</h3>
+<h1></h1> <!-- Empty heading -->
+<h2>Duplicate Heading</h2>
+<h2>Duplicate Heading</h2> <!-- Duplicate heading -->
+<label for="input2"></label> <!-- Empty label -->
+<label for="input3">Duplicate Label</label>
+<input id="input3" type="text">
+<label for="input4">Duplicate Label</label> <!-- Duplicate label -->
+<input id="input4" type="text">
+
+
+  <h2>(Guideline 2.5.1, WCAG Version: 2.0, Level: A)</h2>
+
+  <h3>Pointer Gestures</h3>
+  <div data-gesture="swipe" style="width: 100px; height: 100px; background-color: lightblue;">Swipe here</div> <!-- This should trigger an issue -->
+  <div data-gesture="pinch" style="width: 100px; height: 100px; background-color: lightcoral;">Pinch here</div> <!-- This should trigger an issue -->
+  <div data-gesture="rotate" style="width: 100px; height: 100px; background-color: lightgreen;" data-alternative="button">Rotate here</div> <!-- This should not trigger an issue -->
+  <div data-gesture="swipe" data-swipe-direction="left" data-alternative="button1" style="width: 100px; height: 100px; background-color: lightyellow;">Swipe left or click here</div> <!-- This should not trigger an issue -->
+
+  <h2>(Guideline 2.5.2, WCAG Version: 2.0, Level: A)</h2>
+
+  <h3>Pointer Cancellation</h3>
+  <button data-pointer-event="mousedown" data-pointer-up-event="mouseup" data-alternative-method="buttonClick">Drag and Drop</button> <!-- This should not trigger an issue -->
+  <button data-pointer-event="touchstart" data-pointer-up-event="touchend">Tap Action</button> <!-- This should not trigger an issue -->
+  <button data-pointer-event="mousedown" data-pointer-up-event="mouseup">Click Action</button> <!-- This should trigger an issue -->
+
+  <h2>(Guideline 2.5.3, WCAG Version: 2.0, Level: A)</h2>
+
+  <h3>Buttons and Links</h3>
+  <button aria-label="Submit the form">Submit</button> <!-- This should not trigger an issue -->
+  <button aria-label="Form submission"></button> <!-- This should trigger an issue -->
+  <a href="#" title="Go to homepage">Home</a> <!-- This should not trigger an issue -->
+  <a href="#" aria-label="Go to the homepage">Homepage</a> <!-- This should trigger an issue -->
+  <a href="#">Contact</a> <!-- This should not trigger an issue -->
+  <input type="submit" aria-label="Submit the form" value="Submit"> <!-- This should not trigger an issue -->
+  <input type="button" aria-label="Click to proceed" value="Proceed"> <!-- This should not trigger an issue -->
+  <input type="submit" aria-label="Submit form"> <!-- This should trigger an issue -->
+
+  <h2>(Guideline 2.5.4, WCAG Version: 2.0, Level: A)</h2>
+
+  <h3>Motion Actuation Elements</h3>
+  <div id="motion1" data-motion-actuation="shake">Shake your device to trigger this action.</div> <!-- This should trigger an issue -->
+  <div id="motion2" data-motion-actuation="shake" data-motion-alternative="true">Shake your device to trigger this action. Alternatively, click the button below.</div>
+  <button data-alternative-for="motion2">Click here</button> <!-- This should not trigger an issue -->
+
+  <h2>(Guideline 2.5.5, WCAG Version: 2.0, Level: AAA)</h2>
+
+  <h3>Clickable Targets</h3>
+  <button style="width: 30px; height: 30px;">Click me</button> <!-- This should trigger an issue -->
+  <button style="width: 44px; height: 44px;">Click me</button> <!-- This should not trigger an issue -->
+  <button style="width: 30px; height: 30px;" data-alternative-target="true">Click me</button> <!-- This should not trigger an issue -->
+
+  <h2>(Guideline 2.5.6, WCAG Version: 2.0, Level: AAA)</h2>
+
+  <h3>Input Methods</h3>
+  <button data-input-method="touch">Touch only</button> <!-- This should trigger an issue -->
+  <button data-input-method="keyboard touch">Keyboard and Touch</button> <!-- This should not trigger an issue -->
+  <button data-input-method="keyboard">Keyboard only</button> <!-- This should trigger an issue -->
+  <button data-input-method="mouse">Mouse only</button> <!-- This should trigger an issue -->
+  <button data-input-method="keyboard touch mouse voice">All input methods</button> <!-- This should not trigger an issue -->
+
+  <h2>(Guideline 2.5.7, WCAG Version: 2.2, Level: AA)</h2>
+
+  <h3>Draggable Elements</h3>
+  <div data-dragging="true" data-essential="false" style="width: 100px; height: 100px; background-color: lightblue;">
+    Draggable without alternative
+  </div> <!-- This should trigger an issue -->
+
+  <div data-dragging="true" data-dragging-alternative="true" data-alternative-method="button" data-keyboard-accessible="true" style="width: 100px; height: 100px; background-color: lightgreen;">
+    Draggable with alternative and keyboard accessible
+  </div> <!-- This should not trigger an issue -->
+
+  <div data-dragging="true" data-essential="true" style="width: 100px; height: 100px; background-color: lightcoral;">
+    Draggable essential
+  </div> <!-- This should not trigger an issue -->
+
+  <div data-dragging="true" data-essential="false" data-keyboard-accessible="false" style="width: 100px; height: 100px; background-color: lightyellow;">
+    Draggable without keyboard alternative
+  </div> <!-- This should trigger an issue -->
+
+  <h2>(Guideline 2.5.8, WCAG Version: 2.2, Level: AA)</h2>
+
+  <h3>Pointer Input Targets</h3>
+  <a href="#small-link" style="display: inline-block; width: 20px; height: 20px; background-color: lightblue;">Small Link</a> <!-- This should trigger an issue -->
+  <a href="#large-link" style="display: inline-block; width: 30px; height: 30px; background-color: lightgreen;">Large Link</a> <!-- This should not trigger an issue -->
+  <button style="width: 20px; height: 20px;">Small Button</button> <!-- This should trigger an issue -->
+  <button style="width: 30px; height: 30px;">Large Button</button> <!-- This should not trigger an issue -->
+
+  <h2>(Guideline 3.1.2, WCAG Version: 2.0, Level: AA)</h2>
+
+  <h3>Different Language Parts</h3>
+  <p>This is a paragraph in English.</p>
+  <blockquote lang="es">Este es un párrafo en español.</blockquote> <!-- This should not trigger an issue -->
+  <blockquote lang="fr">Ceci est un paragraphe en français.</blockquote> <!-- This should not trigger an issue -->
+  
+  <!-- The following elements should trigger issues -->
+  <blockquote lang="">This should trigger an issue due to empty lang attribute.</blockquote>
+  <blockquote lang="invalid">This should trigger an issue due to invalid lang attribute.</blockquote>
+  <code>This should trigger an issue as it is missing lang attribute.</code>
+  <pre lang="en">This should not trigger an issue as it has a valid lang attribute.</pre>
+  <samp lang="de">Das ist ein Beispiel.</samp> <!-- This should not trigger an issue -->
+
+  <h2>(Guideline 3.1.3, WCAG Version: 2.0, Level: AAA)</h2>
+
+  <h3>Unusual Words</h3>
+  <p>This paragraph contains an ambiguous term that might need a definition.</p>
+  <p>Here is an unfamiliar term that should be defined.</p>
+  <p>This is a specific term used in a particular way.</p>
+
+  <p>This paragraph has a term that might need a definition, and it is defined in the adjacent text.</p>
+  <p>The term is "ambiguous" and it means unclear or open to more than one interpretation.</p> <!-- This should not trigger an issue -->
+
+  <p>This paragraph contains no unusual terms.</p> <!-- This should not trigger an issue -->
+
+  <h2>(Guideline 3.1.4, WCAG Version: 2.0, Level: AAA)</h2>
+
+  <h3>Abbreviations</h3>
+  <p>The <abbr title="National Aeronautics and Space Administration">NASA</abbr> launched a new spacecraft.</p> <!-- This should not trigger an issue -->
+  <p>The HTML5 specification is maintained by the W3C.</p> <!-- This should trigger an issue for "HTML5" -->
+  <p>The CSS framework is widely used.</p> <!-- This should trigger an issue for "CSS" -->
+  <p>JavaScript (JS) is a popular programming language.</p> <!-- This should trigger an issue for "JS" -->
+
+  <h2>(Guideline 3.1.6, WCAG Version: 2.0, Level: AAA)</h2>
+
+  <h3>Text with Essential Words</h3>
+  <p>
+    The word onomatopoeia is vital for understanding this text. <!-- This should trigger an issue -->
+  </p>
+
+  <p>
+    The word antidisestablishmentarianism [ænˌtaɪdɪsˌɛstəbˌlɪʃmənˈtɛərɪəˌnɪzəm] is vital for understanding this text. <!-- This should not trigger an issue -->
+  </p>
+
+  <p>
+    The word supercalifragilisticexpialidocious is very long and complicated. <!-- This should trigger an issue -->
+  </p>
+
+  <h2>(Guideline 3.2.1, WCAG Version: 2.0, Level: A)</h2>
+
+  <h3>Focus Elements</h3>
+  <button id="button1">Button 1</button>
+  <input type="text" id="input1" placeholder="Focus me to trigger change">
+  <select id="select1">
+    <option>Option 1</option>
+    <option>Option 2</option>
+  </select>
+
+  <h2>(Guideline 3.2.2, WCAG Version: 2.0, Level: A)</h2>
+
+  <h3>Input Elements</h3>
+  <input type="text" id="input1" placeholder="Type here to trigger change">
+  <textarea id="textarea1" placeholder="Type here to trigger change"></textarea>
+  <select id="select1">
+    <option value="">Select an option</option>
+    <option value="1">Option 1</option>
+    <option value="2">Option 2</option>
+  </select>
+
+  <h2>(Guideline 3.2.3, WCAG Version: 2.0, Level: AA)</h2>
+
+  <h3>Navigation Example</h3>
+
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <header>
+    <a href="#home">Home</a>
+    <a href="#services">Services</a> <!-- This should trigger an issue (order changed) -->
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </header>
+
+  <footer>
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#contact">Contact</a>
+  </footer>
+
+  <h2>(Guideline 3.2.4, WCAG Version: 2.0, Level: AA)</h2>
+
+  <h3>Search Box Example</h3>
+  <input type="search" aria-label="Search"> <!-- This should not trigger an issue -->
+  <input type="search" aria-label="Find"> <!-- This should trigger an issue -->
+
+  <h3>Submit Button Example</h3>
+  <button class="submit" aria-label="Submit">Submit</button> <!-- This should not trigger an issue -->
+  <button class="submit" aria-label="Send">Send</button> <!-- This should trigger an issue -->
+
+  <h3>Home Link Example</h3>
+  <a href="#home" class="home" aria-label="Home">Home</a> <!-- This should not trigger an issue -->
+  <a href="#home" class="home" aria-label="Homepage">Homepage</a> <!-- This should trigger an issue -->
+
+  <h2>(Guideline 3.2.5, WCAG Version: 2.0, Level: AAA)</h2>
+
+  <h3>Substantial Change Example</h3>
+  <button data-substantial-change="true">Click me to change page content</button>
+
+  <h3>Pop-up Window Example</h3>
+  <button onclick="showPopup()">Click me to show a pop-up</button>
+
+  <h3>Uncontrolled Focus Change Example</h3>
+  <button onclick="uncontrolledFocusChange()">Click me to change focus</button>
+
+  <script>
+    function showPopup() {
+      const popup = document.createElement('div');
+      popup.style.position = 'fixed';
+      popup.style.top = '50%';
+      popup.style.left = '50%';
+      popup.style.transform = 'translate(-50%, -50%)';
+      popup.style.padding = '20px';
+      popup.style.background = '#fff';
+      popup.style.border = '1px solid #ccc';
+      popup.textContent = 'This is a pop-up window.';
+      document.body.appendChild(popup);
+    }
+
+    function uncontrolledFocusChange() {
+      const input = document.createElement('input');
+      input.setAttribute('data-user-initiated', 'false');
+      document.body.appendChild(input);
+      input.focus();
+    }
+  </script>
+
+
+<h2>(Guideline 3.3.1, WCAG Version: 2.0, Level: A)</h2>
+
+  <h3>Form Example</h3>
+  <form>
+    <div>
+      <label for="name">Name</label>
+      <input type="text" id="name" required>
+    </div>
+
+    <div>
+      <label for="email">Email</label>
+      <input type="email" id="email" required>
+    </div>
+
+    <div>
+      <label for="message">Message</label>
+      <textarea id="message" required></textarea>
+    </div>
+
+    <div>
+      <label for="age">Age</label>
+      <input type="text" id="age">
+    </div> <!-- This input is not required and should not trigger an issue -->
+
+    <!-- Uncomment to test missing labels -->
+    <input type="text" required>
+
+    <button type="submit">Submit</button>
+
+    <style>
+      .error {
+        border: 2px solid red;
+      }
+  
+      .error-summary {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 10px;
+        border: 1px solid #f5c6cb;
+        margin-bottom: 15px;
+        border-radius: 5px;
+      }
+    </style>
+  </form>
+
+<h2>(Guideline 3.3.2, WCAG Version: 2.0, Level: A)</h2>
+
+  <h3>Form Example</h3>
+  <form>
+    <div>
+      <label for="name">Name</label>
+      <input type="text" id="name" required>
+    </div>
+
+    <div>
+      <input type="email" id="email" aria-label="Email Address" required> <!-- This should not trigger an issue -->
+    </div>
+
+    <div>
+      <textarea id="message" placeholder="Enter your message here" required></textarea> <!-- This should not trigger an issue -->
+    </div>
+
+    <fieldset>
+      <legend>Personal Information</legend>
+      <div>
+        <label for="age">Age</label>
+        <input type="number" id="age" required>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <div>
+        <label for="gender">Gender</label>
+        <select id="gender">
+          <option>Male</option>
+          <option>Female</option>
+        </select>
+      </div> <!-- This should trigger an issue as it has no legend -->
+    </fieldset>
+
+    <div>
+      <input type="text" id="address"> <!-- This should trigger an issue -->
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+  
+
+  <h2>(Guideline 3.3.4, WCAG Version: 2.0, Level: AA)</h2>
+
+  <h3>Legal, Financial, or Test Data Forms</h3>
+  <form>
+    <div>
+      <label for="account-number">Account Number</label>
+      <input type="text" id="account-number" data-legal> <!-- This should trigger an issue -->
+    </div>
+
+    <div>
+      <label for="transaction-amount">Transaction Amount</label>
+      <input type="number" id="transaction-amount" data-financial> <!-- This should trigger an issue -->
+    </div>
+
+    <div>
+      <label for="test-score">Test Score</label>
+      <input type="number" id="test-score" data-test> <!-- This should trigger an issue -->
+    </div>
+
+    <div>
+      <label for="reversible-action">Reversible Action</label>
+      <input type="text" id="reversible-action" data-legal data-reversible> <!-- This should not trigger an issue -->
+    </div>
+
+    <div>
+      <label for="verifiable-action">Verifiable Action</label>
+      <input type="text" id="verifiable-action" data-financial data-verifiable> <!-- This should not trigger an issue -->
+    </div>
+
+    <div>
+      <label for="confirmed-action">Confirmed Action</label>
+      <input type="text" id="confirmed-action" data-test data-confirmed> <!-- This should not trigger an issue -->
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+  
+  <h2>(Guideline 3.3.6, WCAG Version: 2.0, Level: AAA)</h2>
+
+  <h3>Form without error prevention (should trigger an issue)</h3>
+  <form id="form1">
+    <label for="input1">Input 1</label>
+    <input type="text" id="input1">
+    <button type="submit">Submit</button>
+  </form>
+
+  <h3>Form with reversible, verifiable, and confirmable attributes (should not trigger an issue)</h3>
+  <form id="form2" data-reversible="true" data-verifiable="true" data-confirmable="true">
+    <label for="input2">Input 2</label>
+    <input type="text" id="input2">
+    <button type="submit">Submit</button>
+  </form>
+
+  <h2>(Guideline 3.3.7, WCAG Version: 2.2, Level: A)</h2>
+
+  <h3>Form without auto-complete or auto-populate (should trigger an issue)</h3>
+  <form id="form1">
+    <label for="input1">Input 1</label>
+    <input type="text" id="input1" name="input1">
+    <label for="input2">Input 2</label>
+    <input type="text" id="input2" name="input2">
+    <button type="submit">Submit</button>
+  </form>
+
+  <h3>Form with auto-complete or auto-populate (should not trigger an issue)</h3>
+  <form id="form2">
+    <label for="input3">Input 3</label>
+    <input type="text" id="input3" name="input3" autocomplete="on">
+    <label for="input4">Input 4</label>
+    <input type="text" id="input4" name="input4" data-auto-populate="true">
+    <button type="submit">Submit</button>
+  </form>
+
+  <h3>Form with inconsistent values (should trigger an issue)</h3>
+  <form id="form3">
+    <label for="input5">Input 5</label>
+    <input type="text" id="input5" name="input5" value="value1">
+    <label for="input6">Input 6</label>
+    <input type="text" id="input6" name="input5" value="value2"> <!-- Different value from input5 -->
+    <button type="submit">Submit</button>
+  </form>
+
+
+  <h2>(Guideline 4.1.2, WCAG Version: 2.0, Level: A)</h2>
+
+  <h3>Form Elements</h3>
+  <!-- This input should trigger an issue -->
+  <input type="text" placeholder="Name">
+
+  <!-- This input should not trigger an issue -->
+  <input type="text" placeholder="Email" aria-label="Email Address" aria-describedby="emailHelp">
+
+  <h3>Buttons</h3>
+  <!-- This button should trigger an issue -->
+  <button>Submit</button>
+
+  <!-- This button should not trigger an issue -->
+  <button role="button" aria-label="Submit Button">Submit</button>
+
+  <h3>Custom Role</h3>
+  <!-- This element with a role should trigger an issue -->
+  <div role="alert">Alert without ARIA attributes</div>
+
+  <!-- This element with a role should not trigger an issue -->
+  <div role="alert" aria-label="Important Alert" aria-describedby="alertDesc">Alert with ARIA attributes</div>
+  <p id="alertDesc">This is an important alert message.</p>
+
+  <h2>(Guideline 4.1.3, WCAG Version: 2.0, Level: AA)</h2>
+
+  <h3>Status Messages</h3>
+  <!-- This status message should trigger an issue -->
+  <div id="status1" role="status">Processing...</div> <!-- No aria-live attribute -->
+
+  <!-- This status message should not trigger an issue -->
+  <div id="status2" aria-live="polite">Processing...</div>
+
+  <!-- This status message should trigger an issue -->
+  <div id="status3">Loading data...</div> <!-- No role or aria-live attribute -->
+
+  <!-- This status message should not trigger an issue -->
+  <div id="status4" role="alert">Error occurred!</div>
+
+  <!-- This status message should trigger an issue due to invalid aria-live value -->
+  <div id="status5" role="alert" aria-live="polite">Attention needed!</div>
+
+  <!-- This status message should trigger an issue due to invalid role -->
+  <div id="status6" role="note" aria-live="assertive">This is a note!</div>
+
+  <!-- This status message should not trigger an issue -->
+  <div id="status7" role="status" aria-live="polite">All good!</div>
+
+
+</body>
+</html>

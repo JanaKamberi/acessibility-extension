@@ -1,0 +1,32 @@
+.decorative {
+  background-image: url('decorative-image.jpg');
+  width: 100px;
+  height: 100px;
+}
+
+.compliance-tooltip {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 4px;
+  padding: 5px 10px;
+  z-index: 10000;
+  font-size: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  max-width: 300px;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.compliance-tooltip::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 5px;
+  border-color: transparent transparent rgba(0, 0, 0, 0.8) transparent;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
